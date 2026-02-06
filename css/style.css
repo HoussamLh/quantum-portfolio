@@ -67,3 +67,35 @@ nav .logo {
     gap: 45px;
     margin-left: auto;
 }
+/* Footer & Social Icons */
+footer {
+    padding: 60px 8%;
+    background-color: var(--white);
+    border-top: 1px solid #eeeeee;
+    text-align: center;
+}
+
+.footer-content p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-top: 30px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.social-links a {
+    color: var(--dark-charcoal);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: var(--sage-green);
+    transform: translateY(-3px);
+}
