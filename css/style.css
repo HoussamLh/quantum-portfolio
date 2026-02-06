@@ -61,3 +61,9 @@ nav .logo {
     font-weight: bold;
     color: var(--primary);
 }
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 45px;
+    margin-left: auto;
+}
