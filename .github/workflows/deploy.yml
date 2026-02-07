@@ -28,6 +28,7 @@ jobs:
         # For the main website, it is usually /public_html/
         server-dir: public_html/
         local-dir: ./ # the current directory of the repo
+        dangerous-clean-slate: false
         # exclude files the server doesn't need to stay light and fast
         exclude: |
           **/.git*
