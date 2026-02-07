@@ -1,4 +1,4 @@
-# the name that appears in the "Actions" tab on GitHub
+# this is the name that appears in the "Actions" tab on GitHub
 name: SiteGround Deployment
 
 # when GitHub run the script
