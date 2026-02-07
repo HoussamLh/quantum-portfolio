@@ -26,7 +26,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         # 'server-dir' is where the files go on SiteGround. 
         # For the main website, it is usually /public_html/
-        server-dir: ./
+        server-dir: public_html/
         # exclude files the server doesn't need to stay light and fast
         exclude: |
           **/.git*
