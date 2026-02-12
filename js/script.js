@@ -57,6 +57,47 @@ function showProject(card) {
     // 5. Scroll to top of spotlight so user sees it
     spotlightSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+/**
+ * QuantumSD Portfolio Filter
+ */
+function initPortfolioFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    if (filterButtons.length === 0) return;
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const filterValue = button.getAttribute('data-filter');
+            updateFilterButtons(filterButtons, button);
+            filterProjectCards(projectCards, filterValue);
+        });
+    });
+}
+
+function updateFilterButtons(buttons, activeBtn) {
+    buttons.forEach(btn => btn.classList.remove('active'));
+    activeBtn.classList.add('active');
+}
+
+function filterProjectCards(cards, filter) {
+    cards.forEach(card => {
+        const isMatch = filter === 'all' || card.classList.contains(filter);
+        if (isMatch) {
+            card.style.display = 'block';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            }, 10);
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
+}
 
 /**
  * Main Initialization
@@ -64,4 +105,5 @@ function showProject(card) {
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     showProject();
+    initPortfolioFilter();
     });
