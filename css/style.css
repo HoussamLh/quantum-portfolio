@@ -611,6 +611,23 @@ move them to their final spots */
     /* Forces all cards to be the same height */
     background: var(--charcoal);
 }
+/* Project Tags - UPDATED to be more badge-like and spaced out*/
+.project-tags span {
+    display: inline-block;
+    /* ensures margin works */
+    margin-right: 0.5rem;
+    /* adjust spacing as needed */
+    padding: 0.2rem 0.4rem;
+    /* make it look like badges */
+    background-color: #f0f0f0;
+    /* badge background */
+    border-radius: 4px;
+    /* rounded corners */
+    font-size: 0.9rem;
+    /* smaller text */
+    margin-bottom: 30px;
+    /* space below tags */
+}
 
 /* Project Image - UPDATED to fill the card */
 .project-image {
