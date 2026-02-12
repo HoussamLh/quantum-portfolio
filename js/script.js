@@ -98,12 +98,30 @@ function filterProjectCards(cards, filter) {
         }
     });
 }
+/**
+ * Hides the Project Spotlight
+ */
+function hideProject() {
+    const spotlightSection = document.getElementById('project-spotlight');
+    const spotlightContent = document.getElementById('spotlight-content');
+    const placeholder = document.querySelector('.spotlight-placeholder');
+
+    spotlightContent.style.display = 'none';
+    placeholder.style.display = 'block';
+    spotlightSection.classList.remove('active');
+
+    // Optional: scroll back to the grid
+    document.querySelector('.portfolio-filters').scrollIntoView({ behavior: 'smooth' });
+}
 
 /**
  * Main Initialization
  */
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
-    showProject();
     initPortfolioFilter();
+
+    // Show first project by default
+    const firstCard = document.querySelector('.project-card');
+    if (firstCard) showProject(firstCard);
     });
