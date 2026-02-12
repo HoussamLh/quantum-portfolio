@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio | QuantumSD</title>
     <script src="/js/script.js" defer></script>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   </head>
   <body>
@@ -21,6 +21,147 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
+    <main class="portfolio-wrapper">
+      <header class="portfolio-header reveal">
+        <h4>Our Work</h4>
+        <h2>Selected <span class="text-green">Projects</span></h2>
+      </header>
+
+      <section id="project-spotlight" class="spotlight-section">
+        <div id="spotlight-content" class="spotlight-content">
+          <div class="spotlight-grid">
+            <div class="spotlight-image">
+              <img id="spotlight-img" src="" alt="Project Preview" />
+            </div>
+            <div class="spotlight-text">
+              <span id="spotlight-category" class="category"></span>
+              <h2 id="spotlight-title"></h2>
+              <p id="spotlight-desc"></p>
+              <div id="spotlight-tags" class="project-tags"></div>
+              <a href="contact.html" id="spotlight-link" class="btn">Start a Project Like This</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="portfolio-filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="web">Web Dev</button>
+        <button class="filter-btn" data-filter="design">UI/UX Design</button>
+        <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+      </div>
+
+      <div class="portfolio-grid">
+        
+        <div class="project-card reveal web"
+             data-title="Nexus Dashboard"
+             data-category="Custom Web Development"
+             data-desc="An advanced analytics platform designed for real-time data visualization and business intelligence."
+             data-image="/assets/images/Nexus Dashboard.png"
+             data-tags="React, D3.js, Node.js">
+          <div class="project-image">
+            <img src="/assets/images/Nexus Dashboard.png" alt="Nexus Dashboard" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Nexus Dashboard</h3>
+                <p>Custom Web Development</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal design"
+             data-title="Zenith Mobile App"
+             data-category="UI/UX Design"
+             data-desc="A sleek, minimalist mobile experience crafted for modern lifestyle management."
+             data-image="/assets/images/Zenith Mobile App.png"
+             data-tags="Figma, Swift, UI Design">
+          <div class="project-image">
+            <img src="/assets/images/Zenith Mobile App.png" alt="Zenith Mobile App" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Zenith Mobile App</h3>
+                <p>UI/UX Design</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal ecommerce"
+             data-title="Vogue Storefront"
+             data-category="E-Commerce Solutions"
+             data-desc="High-conversion fashion retail platform with seamless mobile checkout integration."
+             data-image="/assets/images/Vogue Storefront.png"
+             data-tags="Shopify, CSS3, Liquid">
+          <div class="project-image">
+            <img src="/assets/images/Vogue Storefront.png" alt="Vogue Storefront" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Vogue Storefront</h3>
+                <p>E-Commerce Solutions</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal web"
+             data-title="Growth Engine"
+             data-category="SEO & Data Optimization"
+             data-desc="Enterprise tool for automating search engine optimization and competitor tracking."
+             data-image="/assets/images/Growth Engine.png"
+             data-tags="Python, Next.js, SEO">
+          <div class="project-image">
+            <img src="/assets/images/Growth Engine.png" alt="Growth Engine" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Growth Engine</h3>
+                <p>SEO & Data Optimization</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal web"
+             data-title="Core API Integration"
+             data-category="Software Architecture"
+             data-desc="High-security backend infrastructure built to handle thousands of API requests per second."
+             data-image="/assets/images/Core API integration.png"
+             data-tags="API, Node.js, Security">
+          <div class="project-image">
+            <img src="/assets/images/Core API integration.png" alt="Core API Integration" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Core API Integration</h3>
+                <p>Software Architecture</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal web"
+             data-title="Atlas Identity"
+             data-category="Brand Identity & Logo"
+             data-desc="A full visual identity system created for a global logistics and shipping company."
+             data-image="/assets/images/Atlas Identity.png"
+             data-tags="Branding, Logo Design, Adobe CC">
+          <div class="project-image">
+            <img src="/assets/images/Atlas Identity.png" alt="Atlas Identity" />
+            <div class="project-overlay">
+              <div class="overlay-text">
+                <h3>Atlas Identity</h3>
+                <p>Brand Identity & Logo</p>
+                <span class="view-project">View Case Study</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </section>
+    </main>
     <footer>
       <div class="footer-content">
         <div class="social-links">
