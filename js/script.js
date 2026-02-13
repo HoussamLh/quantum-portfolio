@@ -15,12 +15,12 @@ function initScrollReveal() {
         observer.observe(el);
     });
 }
-
 /** 
- * Spotlight:  Show Project Details
+ * Spotlight: Show Project Details
  */
-
 function showProject(card) {
+    if (!card) return;
+
     const spotlightSection = document.getElementById('project-spotlight');
     const spotlightContent = document.getElementById('spotlight-content');
     const placeholder = document.querySelector('.spotlight-placeholder');
@@ -38,25 +38,27 @@ function showProject(card) {
     document.getElementById('spotlight-desc').innerText = desc;
     document.getElementById('spotlight-img').src = img;
 
-    // 3. Clear and add tags
+    // 3. Clear and add tags with spacing
     const tagsContainer = document.getElementById('spotlight-tags');
     tagsContainer.innerHTML = '';
     tags.forEach(tag => {
         const span = document.createElement('span');
         span.innerText = tag.trim();
+        span.classList.add('tag'); // CSS class for spacing/styling
         tagsContainer.appendChild(span);
     });
 
-    // 4. Smooth UI Transition
-    placeholder.style.display = 'none';
+    // 4. Reveal Spotlight section
+    if (placeholder) placeholder.style.display = 'none';
     spotlightContent.style.display = 'block';
     spotlightSection.style.border = 'none';
     spotlightSection.style.background = 'white';
     spotlightSection.classList.add('active');
 
-    // 5. Scroll to top of spotlight so user sees it
-    spotlightSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 5. Scroll to the very top of the page smoothly
+    scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 /**
  * QuantumSD Portfolio Filter
  */
@@ -98,6 +100,7 @@ function filterProjectCards(cards, filter) {
         }
     });
 }
+
 /**
  * Hides the Project Spotlight
  */
@@ -106,12 +109,13 @@ function hideProject() {
     const spotlightContent = document.getElementById('spotlight-content');
     const placeholder = document.querySelector('.spotlight-placeholder');
 
-    spotlightContent.style.display = 'none';
-    placeholder.style.display = 'block';
+    if (spotlightContent) spotlightContent.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
     spotlightSection.classList.remove('active');
 
-    // Optional: scroll back to the grid
-    document.querySelector('.portfolio-filters').scrollIntoView({ behavior: 'smooth' });
+    // Scroll back to the grid smoothly
+    const filters = document.querySelector('.portfolio-filters');
+    if (filters) filters.scrollIntoView({ behavior: 'smooth' });
 }
 
 /**
@@ -124,4 +128,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show first project by default
     const firstCard = document.querySelector('.project-card');
     if (firstCard) showProject(firstCard);
-    });
+});
