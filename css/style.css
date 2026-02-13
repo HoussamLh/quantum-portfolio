@@ -344,7 +344,7 @@ move them to their final spots */
 
 .about-wrapper {
     padding: 100px 0;
-    background-color: var(--white);
+    background-color: var(--off-white);
 }
 
 .about-container {
@@ -536,4 +536,259 @@ move them to their final spots */
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
     border-color: var(--sage-green);
+}
+
+/* ==========================================
+   7. PORTFOLIO PAGE SPECIFIC
+   ========================================== */
+.portfolio-wrapper {
+    padding: 3rem 5% 3rem 5%;
+    background-color: var(--off-white);
+}
+
+.portfolio-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.portfolio-filters {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    /* Ensures it looks good on mobile */
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: 0.3s ease;
+    padding: 8px 0;
+    position: relative;
+}
+
+/* The green line under the active filter */
+.filter-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--sage-green);
+    transition: 0.3s ease;
+}
+
+.filter-btn.active {
+    color: var(--dark-charcoal);
+}
+
+.filter-btn.active::after,
+.filter-btn:hover::after {
+    width: 100%;
+}
+
+/* Portfolio Grid - UPDATED for 3 columns */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Project Card - UPDATED with fixed height for uniformity */
+.project-card {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    height: 350px;
+    /* Forces all cards to be the same height */
+    background: var(--charcoal);
+}
+/* Project Tags - UPDATED to be more badge-like and spaced out*/
+.project-tags .tag {
+    display: inline-block;
+    /* ensures margin works */
+    margin-right: 0.5rem;
+    /* adjust spacing as needed */
+    padding: 0.2rem 0.4rem;
+    /* make it look like badges */
+    background-color: var(--sage-green);
+    /* badge background */
+    border-radius: 4px;
+    /* rounded corners */
+    font-size: 0.9rem;
+    /* smaller text */
+    margin-bottom: 2rem;
+    /* space below tags */
+}
+
+/* Project Image - UPDATED to fill the card */
+.project-image {
+    width: 100%;
+    height: 100%;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Prevents image stretching */
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hover Overlay */
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.9);
+    /* Dark charcoal with transparency */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    padding: 40px;
+    text-align: center;
+    z-index: 2;
+}
+
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.1);
+}
+
+.overlay-text h3 {
+    color: var(--white);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.overlay-text p {
+    color: var(--sage-green);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.view-project {
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 1px solid var(--sage-green);
+    padding-bottom: 5px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.view-project:hover {
+    color: var(--sage-green);
+}
+
+/* Spotlight Area */
+
+.spotlight-section {
+    min-height: 400px;
+    background: #f9f9f9;
+    margin: 40px auto;
+    padding: 60px 8%;
+    border-radius: 8px;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ddd;
+    /* Subtle border when empty */
+}
+
+.spotlight-content {
+    width: 100%;
+}
+
+.spotlight-content {
+    position: relative;
+    /* Allows the button to be positioned absolutely inside */
+}
+
+.close-spotlight {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.close-spotlight:hover {
+    color: var(--sage-green);
+}
+
+.close-spotlight i {
+    font-size: 1.2rem;
+}
+
+/* Adjust the spotlight section slightly for better appearance when active */
+.spotlight-section.active {
+    background: var(--white);
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.spotlight-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.spotlight-image img {
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.spotlight-text .category {
+    color: var(--sage-green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.spotlight-text h2 {
+    font-size: 2.5rem;
+    margin: 15px 0;
+    color: var(--dark-charcoal);
+}
+
+.spotlight-text p {
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+.spotlight-placeholder p {
+    color: var(--text-muted);
+    font-style: italic;
 }
