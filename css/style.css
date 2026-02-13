@@ -344,7 +344,7 @@ move them to their final spots */
 
 .about-wrapper {
     padding: 100px 0;
-    background-color: var(--white);
+    background-color: var(--off-white);
 }
 
 .about-container {
@@ -542,12 +542,13 @@ move them to their final spots */
    7. PORTFOLIO PAGE SPECIFIC
    ========================================== */
 .portfolio-wrapper {
-    padding: 120px 8% 80px 8%;
+    padding: 3rem 5% 3rem 5%;
+    background-color: var(--off-white);
 }
 
 .portfolio-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 3rem;
 }
 
 .portfolio-filters {
@@ -612,20 +613,20 @@ move them to their final spots */
     background: var(--charcoal);
 }
 /* Project Tags - UPDATED to be more badge-like and spaced out*/
-.project-tags span {
+.project-tags .tag {
     display: inline-block;
     /* ensures margin works */
     margin-right: 0.5rem;
     /* adjust spacing as needed */
     padding: 0.2rem 0.4rem;
     /* make it look like badges */
-    background-color: #f0f0f0;
+    background-color: var(--sage-green);
     /* badge background */
     border-radius: 4px;
     /* rounded corners */
     font-size: 0.9rem;
     /* smaller text */
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
     /* space below tags */
 }
 
