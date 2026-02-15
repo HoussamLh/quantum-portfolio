@@ -792,3 +792,129 @@ move them to their final spots */
     color: var(--text-muted);
     font-style: italic;
 }
+
+/* ==========================================
+   6. RESPONSIVE MEDIA QUERIES
+   ========================================== */
+
+@media (max-width: 992px) {
+
+    /* --- Navigation & Logo --- */
+    nav {
+        padding: 0 5%;
+        justify-content: space-between;
+    }
+
+    .logo {
+        position: relative;
+        /* Removes absolute overhang on mobile */
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .logo img {
+        height: 70px;
+        /* Smaller logo for mobile screens */
+    }
+
+    /* --- Hamburger Menu Icon --- */
+    .menu-toggle {
+        display: block;
+        font-size: 1.8rem;
+        color: var(--dark-charcoal);
+        cursor: pointer;
+        z-index: 1200;
+    }
+
+    /* --- Mobile Menu Drawer --- */
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        /* Hidden off-screen */
+        width: 100%;
+        height: calc(100vh - 80px);
+        /* Fill remaining screen */
+        background: var(--white);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 50px;
+        gap: 0;
+        transition: 0.4s ease-in-out;
+        z-index: 1000;
+        margin-left: 0;
+    }
+
+    .nav-links.active {
+        left: 0;
+        /* Slides menu in */
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 25px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* --- Hero Layout Fix --- */
+    .hero-container {
+        flex-direction: column;
+        /* Stacks vertically */
+        text-align: center;
+        gap: 20px;
+    }
+
+    .hero-left {
+        order: 1;
+        /* Moves Devices to the TOP */
+        width: 100%;
+    }
+
+    .hero-right {
+        order: 2;
+        /* Moves Text to the BOTTOM */
+        width: 100%;
+        padding-bottom: 50px;
+    }
+
+    .hero-btns {
+        justify-content: center;
+    }
+
+    /* --- Device Scaling --- */
+    .device-laptop {
+        width: 70vw;
+        max-width: 320px;
+    }
+
+    .device-tablet {
+        width: 35vw;
+        max-width: 160px;
+    }
+
+    .device-phone {
+        width: 20vw;
+        max-width: 80px;
+    }
+
+    /* --- Typography Fixes --- */
+    #second-line {
+        margin-left: 0;
+    }
+
+    .hero-brand-statement h3 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+}
+
+/* Hide hamburger on desktop view */
+@media (min-width: 993px) {
+    .menu-toggle {
+        display: none;
+    }
+}

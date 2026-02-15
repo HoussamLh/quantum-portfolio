@@ -15,6 +15,35 @@ function initScrollReveal() {
         observer.observe(el);
     });
 }
+function initMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+
+        // Toggles between Hamburger and X icon
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-xmark');
+            }
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
+                }
+            });
+        });
+    }
+}
 /** 
  * Spotlight: Show Project Details
  */
@@ -124,6 +153,7 @@ function hideProject() {
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initPortfolioFilter();
+    initMobileMenu();
 
     // Show first project by default
     const firstCard = document.querySelector('.project-card');
