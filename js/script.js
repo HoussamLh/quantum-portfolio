@@ -15,6 +15,10 @@ function initScrollReveal() {
         observer.observe(el);
     });
 }
+
+/**
+ * Mobile Menu Toggle
+ */
 function initMobileMenu() {
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
@@ -22,8 +26,6 @@ function initMobileMenu() {
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-
-        // Toggles between Hamburger and X icon
             const icon = menuToggle.querySelector('i');
             if (icon) {
                 icon.classList.toggle('fa-bars');
@@ -31,7 +33,6 @@ function initMobileMenu() {
             }
         });
 
-        // Close menu when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -44,52 +45,60 @@ function initMobileMenu() {
         });
     }
 }
-/** 
- * Spotlight: Show Project Details
+
+/** * Spotlight: Show Project Details
  */
-function showProject(card) {
+function showProject(card, shouldScroll = false) {
     if (!card) return;
 
     const spotlightSection = document.getElementById('project-spotlight');
     const spotlightContent = document.getElementById('spotlight-content');
-    const placeholder = document.querySelector('.spotlight-placeholder');
+    if (!spotlightSection || !spotlightContent) return; // Safety check
 
-    // 1. Extract data from the clicked card
+    // 1. Extract data
     const title = card.getAttribute('data-title');
     const category = card.getAttribute('data-category');
     const desc = card.getAttribute('data-desc');
     const img = card.getAttribute('data-image');
-    const tags = card.getAttribute('data-tags').split(',');
+    const tagsAttr = card.getAttribute('data-tags');
+    const tags = tagsAttr ? tagsAttr.split(',') : [];
 
-    // 2. Update the Spotlight elements
-    document.getElementById('spotlight-title').innerText = title;
-    document.getElementById('spotlight-category').innerText = category;
-    document.getElementById('spotlight-desc').innerText = desc;
-    document.getElementById('spotlight-img').src = img;
+    // 2. Update Elements
+    const titleEl = document.getElementById('spotlight-title');
+    const catEl = document.getElementById('spotlight-category');
+    const descEl = document.getElementById('spotlight-desc');
+    const imgEl = document.getElementById('spotlight-img');
 
-    // 3. Clear and add tags with spacing
+    if (titleEl) titleEl.innerText = title;
+    if (catEl) catEl.innerText = category;
+    if (descEl) descEl.innerText = desc;
+    if (imgEl) imgEl.src = img;
+
+    // 3. Update Tags
     const tagsContainer = document.getElementById('spotlight-tags');
-    tagsContainer.innerHTML = '';
-    tags.forEach(tag => {
-        const span = document.createElement('span');
-        span.innerText = tag.trim();
-        span.classList.add('tag'); // CSS class for spacing/styling
-        tagsContainer.appendChild(span);
-    });
+    if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+        tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.innerText = tag.trim();
+            span.classList.add('tag');
+            tagsContainer.appendChild(span);
+        });
+    }
 
-    // 4. Reveal Spotlight section
-    if (placeholder) placeholder.style.display = 'none';
+    // 4. Reveal
     spotlightContent.style.display = 'block';
-    spotlightSection.style.border = 'none';
-    spotlightSection.style.background = 'white';
     spotlightSection.classList.add('active');
+    spotlightSection.style.background = 'white';
 
-    // 5. Scroll to the very top of the page smoothly
-    scrollTo({ top: 0, behavior: 'smooth' });
+    // 5. Conditional Scroll
+    if (shouldScroll) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
 /**
- * QuantumSD Portfolio Filter
+ * Portfolio Filter Logic
  */
 function initPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -100,62 +109,35 @@ function initPortfolioFilter() {
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const filterValue = button.getAttribute('data-filter');
-            updateFilterButtons(filterButtons, button);
-            filterProjectCards(projectCards, filterValue);
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            projectCards.forEach(card => {
+                const isMatch = filterValue === 'all' || card.classList.contains(filterValue);
+                if (isMatch) {
+                    card.style.display = 'block';
+                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => { card.style.display = 'none'; }, 300);
+                }
+            });
         });
     });
 }
 
-function updateFilterButtons(buttons, activeBtn) {
-    buttons.forEach(btn => btn.classList.remove('active'));
-    activeBtn.classList.add('active');
-}
-
-function filterProjectCards(cards, filter) {
-    cards.forEach(card => {
-        const isMatch = filter === 'all' || card.classList.contains(filter);
-        if (isMatch) {
-            card.style.display = 'block';
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-            }, 10);
-        } else {
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                card.style.display = 'none';
-            }, 300);
-        }
-    });
-}
-
 /**
- * Hides the Project Spotlight
- */
-function hideProject() {
-    const spotlightSection = document.getElementById('project-spotlight');
-    const spotlightContent = document.getElementById('spotlight-content');
-    const placeholder = document.querySelector('.spotlight-placeholder');
-
-    if (spotlightContent) spotlightContent.style.display = 'none';
-    if (placeholder) placeholder.style.display = 'block';
-    spotlightSection.classList.remove('active');
-
-    // Scroll back to the grid smoothly
-    const filters = document.querySelector('.portfolio-filters');
-    if (filters) filters.scrollIntoView({ behavior: 'smooth' });
-}
-
-/**
- * Main Initialization
+ * Initialization
  */
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
-    initPortfolioFilter();
     initMobileMenu();
+    initPortfolioFilter();
 
-    // Show first project by default
+    // Default project load (no scroll)
     const firstCard = document.querySelector('.project-card');
-    if (firstCard) showProject(firstCard);
+    if (firstCard) {
+        showProject(firstCard, false);
+    }
 });
