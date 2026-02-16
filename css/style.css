@@ -795,6 +795,43 @@ move them to their final spots */
    ========================================== */
 
 @media (max-width: 992px) {
+/* --- Portfolio Page Mobile Fixes --- */
+.portfolio-wrapper {
+    padding: 60px 5%;
+}
+    
+.portfolio-filters {
+    gap: 15px;
+    /* Tighter gap for smaller screens */
+    margin-bottom: 30px;
+}
+    
+.filter-btn {
+    font-size: 0.8rem;
+ /* Smaller font to prevent button overflow */
+ }
+    
+/* Stack the Spotlight Grid */
+.spotlight-grid {
+grid-template-columns: 1fr;
+/* Force single column */
+gap: 30px;
+text-align: center;
+}
+
+.spotlight-text h2 {
+    font-size: 1.8rem;
+}
+    
+.portfolio-grid {
+    grid-template-columns: 1fr;
+    /* Single column for project cards */
+}
+    
+.project-card {
+    height: 300px;
+    /* Slightly shorter cards for mobile vertical scroll */
+}
 /* --- Services Page Mobile Fixes --- */
 .services-wrapper {
     padding: 60px 5%;
