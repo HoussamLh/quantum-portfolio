@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuantumSD | Contact Me</title>
+    <script src="/js/script.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <a href="contact.html" class="logo">
+        <img src="assets/images/Logo.png" alt="QuantumSD Logo" />
+      </a>
+      <div class="menu-toggle" id="mobile-menu">
+         <i class="fa-solid fa-bars"></i>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+<section class="contact-wrapper">
+    <div class="contact-container">
+        <div class="contact-info reveal">
+            <h4>Get In Touch</h4>
+            <h2>Let's create something <span class="highlight">extraordinary</span> together.</h2>
+            <p>Ready to start your next digital project? Reach out and let's talk about how QuantumSD can help your business grow.</p>
+            
+            <div class="info-details">
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <span>Email Us</span>
+                        <p>hello@quantumsd.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span>Location</span>
+                        <p>London, UK / Remote</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-container reveal">
+            <form action="https://formspree.io/f/mreqadqv" method="POST" id="contact-form">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                <select name="service" id="service-select">
+                    <option value="" disabled selected>Interested Service</option>
+                    <option value="web-dev">Web Design & Dev</option>
+                    <option value="uiux">UI/UX Design</option>
+                    <option value="ecommerce">E-Commerce</option>
+                    <option value="seo">SEO & Strategy</option>
+                    <option value="branding">Branding & Identity</option>
+                    <option value="software">Software Solutions</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Tell us about your project" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+</section>
+    <footer>
+      <div class="footer-content">
+        <div class="social-links">
+          <a
+            rel="noopener"
+            href="https://github.com/HoussamLh"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a
+            rel="noopener"
+            href="https://www.linkedin.com/in/houssam-lahlah-18a387140"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a
+            href="mailto:sami.lala@example.com"
+            target="_blank"
+            aria-label="Email"
+          >
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+        </div>
+        <p>
+          Copyright &copy; 2026 Sami Lala • Camberley based Freelance Web
+          Designer & Developer
+        </p>
+      </div>
+    </footer>
+<div id="success-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h3>Message Sent!</h3>
+        <p>Thank you for reaching out. The QuantumSD team will review your inquiry and get back to you within 24 hours.</p>
+        <button class="close-modal-btn" onclick="closeModal()">Back to Site</button>
+    </div>
+</div>
+      </body>
+</html>
