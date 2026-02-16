@@ -45,8 +45,100 @@ function initMobileMenu() {
         });
     }
 }
+/**
+ * QuantumSD Highlight Current Page
+ */
+function highlightCurrentPage() {
+    let path = window.location.pathname;
+    let currentPage = path.split("/").pop();
 
-/** * Spotlight: Show Project Details
+    // Fix: If on root or index, make it index.html
+    if (currentPage === "" || currentPage === "/" || path.endsWith("/")) {
+        currentPage = "index.html";
+    }
+
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        // Check if href includes the currentPage string
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+}
+
+/**
+ * QuantumSD Auto-Select Service
+ */
+function autoSelectService() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const serviceRequested = queryParams.get('service');
+
+    if (serviceRequested) {
+        const selectElement = document.getElementById('service-select');
+        if (selectElement) {
+            selectElement.value = serviceRequested;
+        }
+    }
+}
+
+/**
+ * QuantumSD Contact Form Handler
+ */
+function initContactForm() {
+    const contactForm = document.getElementById("contact-form");
+    const successModal = document.getElementById("success-modal");
+
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const submitBtn = contactForm.querySelector(".submit-btn");
+        const formData = new FormData(event.target);
+        const originalBtnText = submitBtn.innerHTML;
+
+        submitBtn.innerHTML = "Sending...";
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(event.target.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                if (successModal) successModal.classList.add('active');
+                contactForm.reset();
+            } else {
+                alert("Oops! There was a problem. Please try again.");
+            }
+        } catch (error) {
+            alert("Error: Could not connect to the server.");
+        } finally {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Click outside modal to close
+    if (successModal) {
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) closeModal();
+        });
+    }
+}
+
+function closeModal() {
+    const successModal = document.getElementById("success-modal");
+    if (successModal) {
+        successModal.classList.remove('active');
+    }
+}
+
+/** 
+ ** Spotlight: Show Project Details
  */
 function showProject(card, shouldScroll = false) {
     if (!card) return;
@@ -85,13 +177,31 @@ function showProject(card, shouldScroll = false) {
             tagsContainer.appendChild(span);
         });
     }
+    // 3. Map your Portfolio Categories to your Contact Form Option Values
+    const categoryMap = {
+        'Custom Web Development': 'web-dev',
+        'UI/UX Design': 'uiux',
+        'E-Commerce Solutions': 'ecommerce',
+        'SEO & Data Optimization': 'seo',
+        'Software Architecture': 'software',
+        'Brand Identity & Logo': 'branding'
+    };
+    
+    const serviceKey = categoryMap[category] || 'web-dev';
 
-    // 4. Reveal
+    // 4. Update the button link
+    const spotlightLink = document.getElementById('spotlight-link');
+    if (spotlightLink) {
+        spotlightLink.href = `contact.html?service=${serviceKey}`;
+    }
+
+
+    // 6. Reveal
     spotlightContent.style.display = 'block';
     spotlightSection.classList.add('active');
     spotlightSection.style.background = 'white';
 
-    // 5. Conditional Scroll
+    // 7. Conditional Scroll
     if (shouldScroll) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -128,12 +238,31 @@ function initPortfolioFilter() {
 }
 
 /**
+ * Hides the Project Spotlight
+ */
+function hideProject() {
+    const spotlightSection = document.getElementById('project-spotlight');
+    const spotlightContent = document.getElementById('spotlight-content');
+    const placeholder = document.querySelector('.spotlight-placeholder');
+
+    spotlightContent.style.display = 'none';
+    placeholder.style.display = 'block';
+    spotlightSection.classList.remove('active');
+
+    // Optional: scroll back to the grid
+    document.querySelector('.portfolio-filters').scrollIntoView({ behavior: 'smooth' });
+}
+
+/**
  * Initialization
  */
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initMobileMenu();
     initPortfolioFilter();
+    initContactForm();
+    autoSelectService();
+    highlightCurrentPage();
 
     // Default project load (no scroll)
     const firstCard = document.querySelector('.project-card');
