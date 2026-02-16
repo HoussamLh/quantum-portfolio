@@ -795,7 +795,31 @@ move them to their final spots */
    ========================================== */
 
 @media (max-width: 992px) {
-
+/* --- Services Page Mobile Fixes --- */
+.services-wrapper {
+    padding: 60px 5%;
+}
+    
+.services-header h2 {
+    font-size: 2.2rem;
+}
+    
+.section-title {
+    margin: 40px auto 20px auto;
+    font-size: 1rem;
+}
+.section-title {
+    white-space: nowrap;
+    /* Forces text to stay on one line */
+    font-size: 0.95rem;
+    /* Slightly smaller to fit width */
+    letter-spacing: 2px;
+    /* Tighter spacing to save horizontal room */
+    width: 100%;
+    /* Ensure it uses the full available width */
+    text-align: center;
+    /* Keep it looking professional and centered */
+}
     /* --- About Page Mobile Fixes --- */
     .about-wrapper {
         padding: 60px 0;
