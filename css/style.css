@@ -349,6 +349,7 @@ move them to their final spots */
 
 .about-container {
     display: flex;
+    /* Side-by-side on Laptop */
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 5%;
@@ -361,18 +362,14 @@ move them to their final spots */
     position: relative;
 }
 
-/* Updated Image Styles for High Quality */
 .about-image img {
     width: 100%;
     height: 550px;
-    /* Forces professional proportions */
+    /* High quality height for Laptop */
     object-fit: cover;
     border-radius: 4px;
-    z-index: 2;
     position: relative;
-    filter: grayscale(15%) contrast(105%);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    display: block;
+    z-index: 2;
 }
 
 /* The Green Box behind the image */
@@ -794,10 +791,44 @@ move them to their final spots */
 }
 
 /* ==========================================
-   6. RESPONSIVE MEDIA QUERIES
+   6. RESPONSIVE MEDIA QUERIES 
    ========================================== */
 
 @media (max-width: 992px) {
+
+    /* --- About Page Mobile Fixes --- */
+    .about-wrapper {
+        padding: 60px 0;
+    }
+
+    .about-container {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .about-image {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .about-image img {
+        height: 350px;
+    }
+
+    .image-accent {
+        top: 15px;
+        left: -15px;
+    }
+
+    .about-stats {
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .about-content h2 {
+        font-size: 2rem;
+    }
 
     /* --- Navigation & Logo --- */
     nav {
@@ -807,7 +838,6 @@ move them to their final spots */
 
     .logo {
         position: relative;
-        /* Removes absolute overhang on mobile */
         left: 0;
         top: 0;
         display: flex;
@@ -817,7 +847,6 @@ move them to their final spots */
 
     .logo img {
         height: 70px;
-        /* Smaller logo for mobile screens */
     }
 
     /* --- Hamburger Menu Icon --- */
@@ -834,10 +863,8 @@ move them to their final spots */
         position: absolute;
         top: 80px;
         left: -100%;
-        /* Hidden off-screen */
         width: 100%;
         height: calc(100vh - 80px);
-        /* Fill remaining screen */
         background: var(--white);
         flex-direction: column;
         justify-content: flex-start;
@@ -850,7 +877,6 @@ move them to their final spots */
 
     .nav-links.active {
         left: 0;
-        /* Slides menu in */
     }
 
     .nav-links li {
@@ -863,96 +889,84 @@ move them to their final spots */
     /* --- Hero Layout Fix --- */
     .hero-container {
         flex-direction: column;
-        /* Stacks vertically */
         text-align: center;
         gap: 20px;
     }
 
     .hero-left {
         order: 1;
-        /* Moves Devices to the TOP */
         width: 100%;
         margin-bottom: 30px;
     }
 
     .hero-right {
         order: 2;
-        /* Moves Text to the BOTTOM */
         width: 100%;
         padding-bottom: 30px;
     }
-        .hero-btns {
-            justify-content: center;
-            gap: 10px;
-            /* Reduces space between the two buttons */
-        }
-    
-        .btn-primary,
-        .btn-secondary {
-            padding: 10px 20px;
-            /* Reduced from 14px 30px */
-            font-size: 0.8rem;
-            /* Slightly smaller text */
-            white-space: nowrap;
-            /* Forces text to stay on one line */
-            flex: 1;
-            /* Makes both buttons the same width */
-            max-width: 160px;
-            /* Prevents them from getting too wide */
-            text-align: center;
-        }
-        
-/* --- Updated Device Scaling --- */
 
-.device-showcase {
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
+    .hero-btns {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        flex: 1;
+        max-width: 160px;
+        text-align: center;
+    }
+
+    /* --- Updated Device Scaling --- */
+    .device-showcase {
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+    }
+
+    .device-group {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        transform: scale(0.9);
+        transform-origin: center;
+        width: fit-content;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+
+    .device-laptop {
+        width: 55vw;
+        max-width: 250px;
+    }
+
+    .device-tablet {
+        width: 28vw;
+        max-width: 120px;
+        margin-right: -35px;
+    }
+
+    .device-phone {
+        width: 18vw;
+        max-width: 70px;
+        margin-left: -35px;
+    }
+
+    /* --- Typography Fixes --- */
+    #second-line {
+        margin-left: 0;
+    }
+
+    .hero-brand-statement h3 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
 }
 
-.device-group {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    /* This scales the whole group down to 90% so it fits on physical screens */
-    transform: scale(0.9);
-    transform-origin: center;
-    width: fit-content;
-    margin: 0 auto;
-    margin-bottom: 50px;
-    /* This adds the space you wanted earlier */
-}
-
-.device-laptop {
-    width: 55vw;
-    max-width: 250px;
-}
-
-.device-tablet {
-    width: 28vw;
-    max-width: 120px;
-    margin-right: -35px;
-}
-
-.device-phone {
-    width: 18vw;
-    max-width: 70px;
-    margin-left: -35px;
-}
-
-/* --- Typography Fixes --- */
-#second-line {
-    margin-left: 0;
-}
-
-.hero-brand-statement h3 {
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-}
-}
-
-/* Hide hamburger on desktop view */
 @media (min-width: 993px) {
     .menu-toggle {
         display: none;
