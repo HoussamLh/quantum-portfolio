@@ -872,44 +872,76 @@ move them to their final spots */
         order: 1;
         /* Moves Devices to the TOP */
         width: 100%;
+        margin-bottom: 30px;
     }
 
     .hero-right {
         order: 2;
         /* Moves Text to the BOTTOM */
         width: 100%;
-        padding-bottom: 50px;
+        padding-bottom: 30px;
     }
+        .hero-btns {
+            justify-content: center;
+            gap: 10px;
+            /* Reduces space between the two buttons */
+        }
+    
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            /* Reduced from 14px 30px */
+            font-size: 0.8rem;
+            /* Slightly smaller text */
+            white-space: nowrap;
+            /* Forces text to stay on one line */
+            flex: 1;
+            /* Makes both buttons the same width */
+            max-width: 160px;
+            /* Prevents them from getting too wide */
+            text-align: center;
+        }
+        
+/* --- Updated Device Scaling --- */
+.device-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+}
 
-    .hero-btns {
-        justify-content: center;
-    }
+.device-laptop {
+    width: 60vw;
+    /* Shrink the main center image */
+    max-width: 280px;
+}
 
-    /* --- Device Scaling --- */
-    .device-laptop {
-        width: 70vw;
-        max-width: 320px;
-    }
+.device-tablet {
+    width: 30vw;
+    /* Shrink tablet */
+    max-width: 140px;
+    margin-right: -30px;
+    /* Pull it closer to center */
+}
 
-    .device-tablet {
-        width: 35vw;
-        max-width: 160px;
-    }
+.device-phone {
+    width: 18vw;
+    /* Shrink phone */
+    max-width: 70px;
+    margin-left: -30px;
+    /* Pull it closer to center */
+}
 
-    .device-phone {
-        width: 20vw;
-        max-width: 80px;
-    }
+/* --- Typography Fixes --- */
+#second-line {
+    margin-left: 0;
+}
 
-    /* --- Typography Fixes --- */
-    #second-line {
-        margin-left: 0;
-    }
-
-    .hero-brand-statement h3 {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-    }
+.hero-brand-statement h3 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
 }
 
 /* Hide hamburger on desktop view */
