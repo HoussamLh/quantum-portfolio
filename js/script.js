@@ -98,52 +98,56 @@ function initContactForm() {
         const formData = new FormData(event.target);
         const formDataObj = Object.fromEntries(formData.entries());
 
-        // Frontend Honeypot Guard
+        // 1. Frontend Honeypot Guard: Block spam without a server request
         if (formDataObj.honeypot && formDataObj.honeypot !== "") {
             console.warn("Spam attempt blocked on frontend.");
-            return; // Exit without even hitting the server
+            return;
         }
 
+        // 2. UI Feedback: Disable button and show loading state
         const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>'; // add a spinner
+        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch('https://api.devbysam.co.uk', {
+            // 3. API Call: Using relative path for Vercel
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json' // Explicitly ask for JSON back
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(formDataObj)
             });
 
             if (response.ok) {
+                // 4. Success: Show modal and clear form
                 if (successModal) successModal.classList.add('active');
                 contactForm.reset();
             } else {
-                // Try to parse error message from server, fallback to generic error
+                // 5. Server Error: Handle specific error messages
                 let errorMessage = "Something went wrong";
                 try {
                     const errorData = await response.json();
                     errorMessage = errorData.error || errorMessage;
-                } catch (e) { /* ignore parse error */ }
+                } catch (e) { /* Fallback to default */ }
 
                 alert("Error: " + errorMessage);
             }
         } catch (error) {
             console.error("Submission Error:", error);
-            alert("Connection error: Is the server running?");
+            alert("Connection error: Could not reach the server.");
         } finally {
+            // 6. Restore Button State
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
         }
     });
 
-    // Robust Modal Closing
+    // 7. Modal Closing Logic
     if (successModal) {
         successModal.addEventListener('click', (e) => {
-            // Only close if they click the background overlay, not the content box
+            // Only close if user clicks the dark overlay background
             if (e.target.id === "success-modal") {
                 closeModal();
             }
