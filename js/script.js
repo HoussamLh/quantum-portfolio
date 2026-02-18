@@ -96,44 +96,58 @@ function initContactForm() {
 
         const submitBtn = contactForm.querySelector(".submit-btn");
         const formData = new FormData(event.target);
-        const originalBtnText = submitBtn.innerHTML;
+        const formDataObj = Object.fromEntries(formData.entries());
 
-        submitBtn.innerHTML = "Sending...";
+        // Frontend Honeypot Guard
+        if (formDataObj.honeypot && formDataObj.honeypot !== "") {
+            console.warn("Spam attempt blocked on frontend.");
+            return; // Exit without even hitting the server
+        }
+
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>'; // add a spinner
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch(event.target.action, {
+            const response = await fetch('https://api.devbysam.co.uk', {
                 method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json' // Explicitly ask for JSON back
+                },
+                body: JSON.stringify(formDataObj)
             });
 
             if (response.ok) {
                 if (successModal) successModal.classList.add('active');
                 contactForm.reset();
             } else {
-                alert("Oops! There was a problem. Please try again.");
+                // Try to parse error message from server, fallback to generic error
+                let errorMessage = "Something went wrong";
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.error || errorMessage;
+                } catch (e) { /* ignore parse error */ }
+
+                alert("Error: " + errorMessage);
             }
         } catch (error) {
-            alert("Error: Could not connect to the server.");
+            console.error("Submission Error:", error);
+            alert("Connection error: Is the server running?");
         } finally {
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
         }
     });
 
-    // Click outside modal to close
+    // Robust Modal Closing
     if (successModal) {
         successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) closeModal();
+            // Only close if they click the background overlay, not the content box
+            if (e.target.id === "success-modal") {
+                closeModal();
+            }
         });
-    }
-}
-
-function closeModal() {
-    const successModal = document.getElementById("success-modal");
-    if (successModal) {
-        successModal.classList.remove('active');
     }
 }
 
