@@ -1,0 +1,26 @@
+{
+  "name": "quantumsd-website",
+  "version": "1.0.0",
+  "description": "Professional Web Design & Development Solutions",
+  "main": "api/contact.js",
+  "scripts": {
+    "start": "node api/contact.js",
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "web development",
+    "uiux",
+    "ecommerce",
+    "branding"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.1"
+  }
+}

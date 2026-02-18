@@ -96,44 +96,62 @@ function initContactForm() {
 
         const submitBtn = contactForm.querySelector(".submit-btn");
         const formData = new FormData(event.target);
-        const originalBtnText = submitBtn.innerHTML;
+        const formDataObj = Object.fromEntries(formData.entries());
 
-        submitBtn.innerHTML = "Sending...";
+        // 1. Frontend Honeypot Guard: Block spam without a server request
+        if (formDataObj.honeypot && formDataObj.honeypot !== "") {
+            console.warn("Spam attempt blocked on frontend.");
+            return;
+        }
+
+        // 2. UI Feedback: Disable button and show loading state
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch(event.target.action, {
+            // 3. API Call: Using relative path for Vercel
+            const response = await fetch('/api/contact', {
                 method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formDataObj)
             });
 
             if (response.ok) {
+                // 4. Success: Show modal and clear form
                 if (successModal) successModal.classList.add('active');
                 contactForm.reset();
             } else {
-                alert("Oops! There was a problem. Please try again.");
+                // 5. Server Error: Handle specific error messages
+                let errorMessage = "Something went wrong";
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.error || errorMessage;
+                } catch (e) { /* Fallback to default */ }
+
+                alert("Error: " + errorMessage);
             }
         } catch (error) {
-            alert("Error: Could not connect to the server.");
+            console.error("Submission Error:", error);
+            alert("Connection error: Could not reach the server.");
         } finally {
+            // 6. Restore Button State
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
         }
     });
 
-    // Click outside modal to close
+    // 7. Modal Closing Logic
     if (successModal) {
         successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) closeModal();
+            // Only close if user clicks the dark overlay background
+            if (e.target.id === "success-modal") {
+                closeModal();
+            }
         });
-    }
-}
-
-function closeModal() {
-    const successModal = document.getElementById("success-modal");
-    if (successModal) {
-        successModal.classList.remove('active');
     }
 }
 
