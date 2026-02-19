@@ -155,6 +155,13 @@ function initContactForm() {
     }
 }
 
+function closeModal() {
+    const successModal = document.getElementById("success-modal");
+    if (successModal) {
+        successModal.classList.remove('active');
+    }
+}
+
 /** 
  ** Spotlight: Show Project Details
  */
