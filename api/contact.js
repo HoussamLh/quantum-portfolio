@@ -1,44 +1,44 @@
-const express = require('express');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
-require('dotenv').config();
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+module.exports = async function (req, res) {
 
-// Main handler for the contact form
-app.post('/api/contact', async (req, res) => {
-    const { name, email, service, message, honeypot } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-    // Security: Stop bots if the hidden honeypot field is filled
-    if (honeypot) return res.status(400).json({ error: "Spam detected" });
+  const { name, email, service, message, honeypot } = req.body;
 
-    // SMTP Configuration using SiteGround credentials from Environment Variables
-    const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
+  if (honeypot) {
+    return res.status(400).json({ error: "Spam detected" });
+  }
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    secure: Number(process.env.EMAIL_PORT) === 465,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  try {
+    await transporter.sendMail({
+      from: `"${name}" <${process.env.EMAIL_USER}>`,
+      to: process.env.RECEIVER_EMAIL,
+      replyTo: email,
+      subject: `QuantumSD Inquiry: ${service || "General Inquiry"}`,
+      text: `Message from ${name} (${email}):\n\n${message}`
     });
 
-    try {
-        await transporter.sendMail({
-            from: `"${name}" <${process.env.EMAIL_USER}>`, 
-            to: process.env.RECEIVER_EMAIL, 
-            replyTo: email, 
-            subject: `QuantumSD Inquiry: ${service}`,
-            text: `Message from ${name} (${email}):\n\n${message}`
-        });
+    return res.status(200).json({ success: true });
 
-        res.status(200).json({ status: "success", message: "Email sent successfully" });
-    } catch (error) {
-        console.error("Nodemailer Error:", error);
-        res.status(500).json({ error: "Failed to send email. Please try again later." });
-    }
-});
-
-module.exports = app;
+  } catch (error) {
+    console.error("Email Error:", error);
+    return res.status(500).json({ error: 'Email failed to send' });
+  }
+};
