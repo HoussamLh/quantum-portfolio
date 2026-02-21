@@ -992,7 +992,11 @@ textarea:focus {
 .close-modal-btn:hover {
     background: var(--sage-green);
 }
-
+.content-error {
+    color: #b42318;
+    text-align: center;
+    margin: 20px 0;
+}
 /* ==========================================
    6. RESPONSIVE MEDIA QUERIES 
    ========================================== */
