@@ -895,6 +895,20 @@ textarea:focus {
     background-color: var(--sage-green);
     transform: translateY(-3px);
 }
+.form-status {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    min-height: 1.2rem;
+    color: #444;
+}
+
+.form-status.success {
+    color: #1f7a3d;
+}
+
+.form-status.error {
+    color: #b42318;
+}
 
 /* ==========================================
    9. MODAL STYLES FOR FORM SUBMISSION
