@@ -88,8 +88,19 @@ function autoSelectService() {
 function initContactForm() {
     const contactForm = document.getElementById("contact-form");
     const successModal = document.getElementById("success-modal");
+    const statusEl = document.getElementById("form-status");
+    const startedAtEl = document.getElementById("form-started-at");
 
     if (!contactForm) return;
+
+    if (startedAtEl) startedAtEl.value = String(Date.now());
+
+    function setStatus(message, type) {
+        if (!statusEl) return;
+        statusEl.textContent = message;
+        statusEl.classList.remove("success", "error");
+        if (type) statusEl.classList.add(type);
+    }
 
     contactForm.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -98,59 +109,45 @@ function initContactForm() {
         const formData = new FormData(event.target);
         const formDataObj = Object.fromEntries(formData.entries());
 
-        // 1. Frontend Honeypot Guard: Block spam without a server request
-        if (formDataObj.honeypot && formDataObj.honeypot !== "") {
-            console.warn("Spam attempt blocked on frontend.");
-            return;
-        }
+        if (formDataObj.honeypot && formDataObj.honeypot !== "") return;
 
-        // 2. UI Feedback: Disable button and show loading state
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
         submitBtn.disabled = true;
+        setStatus("Sending your message...", "");
 
         try {
-            // 3. API Call: Using relative path for Vercel
             const response = await fetch('/api/contact', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(formDataObj)
             });
 
             if (response.ok) {
-                // 4. Success: Show modal and clear form
+                setStatus("Message sent successfully.", "success");
                 if (successModal) successModal.classList.add('active');
                 contactForm.reset();
+                if (startedAtEl) startedAtEl.value = String(Date.now());
             } else {
-                // 5. Server Error: Handle specific error messages
-                let errorMessage = "Something went wrong";
+                let errorMessage = "Something went wrong.";
                 try {
-                    const errorData = await response.json();
-                    errorMessage = errorData.error || errorMessage;
-                } catch (e) { /* Fallback to default */ }
-
-                alert("Error: " + errorMessage);
+                    const data = await response.json();
+                    errorMessage = data.error || errorMessage;
+                } catch (_) {}
+                setStatus(errorMessage, "error");
             }
         } catch (error) {
             console.error("Submission Error:", error);
-            alert("Connection error: Could not reach the server.");
+            setStatus("Connection error. Please try again.", "error");
         } finally {
-            // 6. Restore Button State
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
         }
     });
 
-    // 7. Modal Closing Logic
     if (successModal) {
         successModal.addEventListener('click', (e) => {
-            // Only close if user clicks the dark overlay background
-            if (e.target.id === "success-modal") {
-                closeModal();
-            }
+            if (e.target.id === "success-modal") closeModal();
         });
     }
 }
