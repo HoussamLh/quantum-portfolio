@@ -1,0 +1,80 @@
+[
+  {
+    "section": "Core Development",
+    "title": "Custom Web Development",
+    "icon": "fa-solid fa-code",
+    "description": "Hand-coded, unique websites built from scratch to ensure maximum flexibility and performance.",
+    "contactService": "web-dev"
+  },
+  {
+    "section": "Core Development",
+    "title": "E-Commerce Solutions",
+    "icon": "fa-solid fa-cart-shopping",
+    "description": "Powerful online stores built on Shopify or WooCommerce, optimized for sales and security.",
+    "contactService": "ecommerce"
+  },
+  {
+    "section": "Core Development",
+    "title": "Front-End Engineering",
+    "icon": "fa-solid fa-laptop-code",
+    "description": "Perfecting the visual layer with smooth animations and lightning-fast responsiveness."
+  },
+  {
+    "section": "Core Development",
+    "title": "CMS Integration",
+    "icon": "fa-solid fa-database",
+    "description": "Flexible systems using WordPress or Contentful that give you full control over your content."
+  },
+  {
+    "section": "Core Development",
+    "title": "Software Solutions",
+    "icon": "fas fa-layer-group",
+    "description": "Scalable cloud applications and custom software architecture.",
+    "contactService": "software"
+  },
+  {
+    "section": "Design & Strategy",
+    "title": "UI/UX Design",
+    "icon": "fa-solid fa-bezier-curve",
+    "description": "Modern interfaces designed in Figma with a focus on user journey and conversion.",
+    "contactService": "uiux"
+  },
+  {
+    "section": "Design & Strategy",
+    "title": "Brand Identity",
+    "icon": "fa-solid fa-palette",
+    "description": "Defining your brand through professional logos, typography, and color psychology.",
+    "contactService": "branding"
+  },
+  {
+    "section": "Design & Strategy",
+    "title": "Mobile-First Design",
+    "icon": "fa-solid fa-mobile-screen-button",
+    "description": "Ensuring your digital presence is flawless on every screen size, from phone to desktop."
+  },
+  {
+    "section": "Design & Strategy",
+    "title": "Digital Strategy",
+    "icon": "fa-solid fa-lightbulb",
+    "description": "Expert consulting to align your technology with your long-term business goals."
+  },
+  {
+    "section": "Performance & Growth",
+    "title": "SEO Optimization",
+    "icon": "fa-solid fa-magnifying-glass-chart",
+    "description": "Strategic on-page SEO to improve visibility and climb search engine rankings.",
+    "contactService": "seo"
+  },
+  {
+    "section": "Performance & Growth",
+    "title": "Performance Tuning",
+    "icon": "fa-solid fa-gauge-high",
+    "description": "Optimizing load times and Core Web Vitals to keep users engaged and reduce bounce rates."
+  },
+  {
+    "section": "Performance & Growth",
+    "title": "Website Maintenance",
+    "icon": "fa-solid fa-shield-halved",
+    "description": "Ongoing support, security patches, and backups so you can focus on your business."
+  }
+]
