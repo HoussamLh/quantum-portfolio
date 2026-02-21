@@ -49,13 +49,11 @@ function initMobileMenu() {
  * QuantumSD Highlight Current Page
  */
 function highlightCurrentPage() {
-    let path = window.location.pathname;
-    let currentPage = path.split("/").pop();
+let path = window.location.pathname;
+let currentPage = path.split("/").pop() || "index.html";
 
     // Fix: If on root or index, make it index.html
-    if (currentPage === "" || currentPage === "/" || path.endsWith("/")) {
-        currentPage = "index.html";
-    }
+if (currentPage === "") currentPage = "index.html";
 
     const navLinks = document.querySelectorAll('.nav-links a');
     navLinks.forEach(link => {
