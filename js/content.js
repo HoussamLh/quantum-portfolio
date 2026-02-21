@@ -13,6 +13,16 @@ async function loadJson(path) {
   return res.json();
 }
 
+function reInitAfterDynamicRender() {
+  if (typeof initScrollReveal === "function") initScrollReveal();
+  if (typeof initPortfolioFilter === "function") initPortfolioFilter();
+
+  const firstCard = document.querySelector(".project-card");
+  if (firstCard && typeof showProject === "function") {
+    showProject(firstCard, false);
+  }
+}
+
 async function renderServices() {
   const root = document.getElementById("services-sections");
   if (!root) return;
@@ -70,7 +80,12 @@ async function renderProjects() {
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     await Promise.all([renderServices(), renderProjects()]);
+    reInitAfterDynamicRender();
   } catch (e) {
-    console.error(e);
+    console.error("Content loading error:", e);
+    const servicesRoot = document.getElementById("services-sections");
+    const portfolioRoot = document.getElementById("portfolio-grid");
+    if (servicesRoot) servicesRoot.innerHTML = '<p class="content-error">Unable to load services right now.</p>';
+    if (portfolioRoot) portfolioRoot.innerHTML = '<p class="content-error">Unable to load projects right now.</p>';
   }
 });
