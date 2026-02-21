@@ -26,7 +26,7 @@ function reInitAfterDynamicRender() {
 async function renderServices() {
   const root = document.getElementById("services-sections");
   if (!root) return;
-  const items = await loadJson("data/services.json");
+  const items = await loadJson("/data/services.json");
 
   const grouped = {};
   items.forEach((item) => {
@@ -51,7 +51,7 @@ async function renderServices() {
 async function renderProjects() {
   const grid = document.getElementById("portfolio-grid");
   if (!grid) return;
-  const items = await loadJson("data/projects.json");
+  const items = await loadJson("/data/projects.json");
 
   grid.innerHTML = items.map((p) => {
     const tags = (p.tags || []).join(",");
