@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Nexus Dashboard",
+    "category": "Custom Web Development",
+    "filter": "web",
+    "description": "An advanced analytics platform designed for real-time data visualization and business intelligence.",
+    "image": "assets/images/Nexus Dashboard.png",
+    "tags": ["React", "D3.js", "Node.js"]
+  },
+  {
+    "title": "Zenith Mobile App",
+    "category": "UI/UX Design",
+    "filter": "design",
+    "description": "A sleek, minimalist mobile experience crafted for modern lifestyle management.",
+    "image": "assets/images/Zenith Mobile App.png",
+    "tags": ["Figma", "Swift", "UI Design"]
+  },
+  {
+    "title": "Vogue Storefront",
+    "category": "E-Commerce Solutions",
+    "filter": "ecommerce",
+    "description": "High-conversion fashion retail platform with seamless mobile checkout integration.",
+    "image": "assets/images/Vogue Storefront.png",
+    "tags": ["Shopify", "CSS3", "Liquid"]
+  },
+  {
+    "title": "Growth Engine",
+    "category": "SEO & Data Optimization",
+    "filter": "web",
+    "description": "Enterprise tool for automating search engine optimization and competitor tracking.",
+    "image": "assets/images/Growth Engine.png",
+    "tags": ["Python", "Next.js", "SEO"]
+  },
+  {
+    "title": "Core API Integration",
+    "category": "Software Architecture",
+    "filter": "web",
+    "description": "High-security backend infrastructure built to handle thousands of API requests per second.",
+    "image": "assets/images/Core API Integration.png",
+    "tags": ["API", "Node.js", "Security"]
+  },
+  {
+    "title": "Atlas Identity",
+    "category": "Brand Identity & Logo",
+    "filter": "web",
+    "description": "A full visual identity system created for a global logistics and shipping company.",
+    "image": "assets/images/Atlas Identity.png",
+    "tags": ["Branding", "Logo Design", "Adobe CC"]
+  }
+]
