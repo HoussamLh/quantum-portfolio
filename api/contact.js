@@ -38,17 +38,53 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+async function verifyTurnstile(token, ip) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret || !token) return false;
+
+  const formData = new URLSearchParams();
+  formData.append('secret', secret);
+  formData.append('response', token);
+  formData.append('remoteip', ip);
+
+  const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!resp.ok) return false;
+  const data = await resp.json();
+  return Boolean(data.success);
+}
+
 module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
   const ip = getClientIp(req);
   if (isRateLimited(ip)) {
     return res.status(429).json({ error: 'Too many requests. Please try again later.' });
   }
 
-  const { name, email, service, message, honeypot, formStartedAt } = req.body || {};
+  const {
+    name,
+    email,
+    service,
+    message,
+    honeypot,
+    formStartedAt,
+    'cf-turnstile-response': turnstileToken
+  } = req.body || {};
 
-  if (honeypot) return res.status(400).json({ error: 'Spam detected.' });
+  if (honeypot) {
+    return res.status(400).json({ error: 'Spam detected.' });
+  }
+
+  const turnstileOk = await verifyTurnstile(turnstileToken, ip);
+  if (!turnstileOk) {
+    return res.status(400).json({ error: 'Bot verification failed.' });
+  }
 
   const startedAt = Number(formStartedAt);
   const now = Date.now();
@@ -66,14 +102,22 @@ module.exports = async function handler(req, res) {
   if (!safeName || !safeEmail || !safeMessage) {
     return res.status(400).json({ error: 'Name, email and message are required.' });
   }
+
   if (!isValidEmail(safeEmail)) {
     return res.status(400).json({ error: 'Please provide a valid email address.' });
   }
 
-  const requiredEnvVars = ['EMAIL_HOST', 'EMAIL_PORT', 'EMAIL_USER', 'EMAIL_PASS', 'RECEIVER_EMAIL'];
-  const missing = requiredEnvVars.filter((k) => !process.env[k]);
-  if (missing.length) {
-    console.error('Missing email env vars:', missing);
+  const requiredEnvVars = [
+    'EMAIL_HOST',
+    'EMAIL_PORT',
+    'EMAIL_USER',
+    'EMAIL_PASS',
+    'RECEIVER_EMAIL',
+    'TURNSTILE_SECRET_KEY'
+  ];
+  const missing = requiredEnvVars.filter((key) => !process.env[key]);
+  if (missing.length > 0) {
+    console.error('Missing env vars:', missing);
     return res.status(500).json({ error: 'Email service is not configured.' });
   }
 
