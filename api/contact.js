@@ -40,7 +40,8 @@ function isValidEmail(email) {
 
 async function verifyTurnstile(token, ip) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret || !token) return false;
+  if (!secret) return { success: false, reason: 'Missing Turnstile secret key.' };
+  if (!token) return { success: false, reason: 'Missing Turnstile token.' };
 
   const formData = new URLSearchParams();
   formData.append('secret', secret);
@@ -52,9 +53,16 @@ async function verifyTurnstile(token, ip) {
     body: formData
   });
 
-  if (!resp.ok) return false;
+  if (!resp.ok) {
+    return { success: false, reason: `Turnstile verify request failed (${resp.status}).` };
+  }
   const data = await resp.json();
-  return Boolean(data.success);
+  if (!data.success) {
+    const codes = Array.isArray(data['error-codes']) ? data['error-codes'].join(', ') : 'unknown';
+    return { success: false, reason: `Turnstile rejected token: ${codes}` };
+  }
+
+  return { success: true, reason: '' };
 }
 
 module.exports = async function handler(req, res) {
@@ -81,9 +89,10 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Spam detected.' });
   }
 
-  const turnstileOk = await verifyTurnstile(turnstileToken, ip);
-  if (!turnstileOk) {
-    return res.status(400).json({ error: 'Bot verification failed.' });
+  const turnstileResult = await verifyTurnstile(turnstileToken, ip);
+  if (!turnstileResult.success) {
+    console.error('Turnstile verification failed:', turnstileResult.reason);
+    return res.status(400).json({ error: 'Bot verification failed. Please retry the captcha.' });
   }
 
   const startedAt = Number(formStartedAt);
@@ -122,6 +131,11 @@ module.exports = async function handler(req, res) {
   }
 
   const emailPort = Number(process.env.EMAIL_PORT);
+  if (!Number.isFinite(emailPort) || emailPort <= 0) {
+    console.error('Invalid EMAIL_PORT:', process.env.EMAIL_PORT);
+    return res.status(500).json({ error: 'Email service is not configured.' });
+  }
+
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: emailPort,
@@ -135,6 +149,8 @@ module.exports = async function handler(req, res) {
   const fromAddress = process.env.EMAIL_FROM || process.env.EMAIL_USER;
 
   try {
+    await transporter.verify();
+
     await transporter.sendMail({
       from: `"QuantumSD Contact" <${fromAddress}>`,
       to: process.env.RECEIVER_EMAIL,
