@@ -93,6 +93,12 @@ function initContactForm() {
 
     if (startedAtEl) startedAtEl.value = String(Date.now());
 
+    function resetTurnstile() {
+        if (window.turnstile && typeof window.turnstile.reset === 'function') {
+            window.turnstile.reset();
+        }
+    }
+
     function setStatus(message, type) {
         if (!statusEl) return;
         statusEl.textContent = message;
@@ -126,6 +132,7 @@ function initContactForm() {
                 if (successModal) successModal.classList.add('active');
                 contactForm.reset();
                 if (startedAtEl) startedAtEl.value = String(Date.now());
+                resetTurnstile();
             } else {
                 let errorMessage = "Something went wrong.";
                 try {
@@ -133,10 +140,12 @@ function initContactForm() {
                     errorMessage = data.error || errorMessage;
                 } catch (_) {}
                 setStatus(errorMessage, "error");
+                resetTurnstile();
             }
         } catch (error) {
             console.error("Submission Error:", error);
             setStatus("Connection error. Please try again.", "error");
+            resetTurnstile();
         } finally {
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
