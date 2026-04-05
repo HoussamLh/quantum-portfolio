@@ -95,7 +95,7 @@ function initContactForm() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    status.textContent = "Sending...";
+    if (status) status.textContent = "Sending...";
 
     try {
       const res = await fetch("/api/contact", {
@@ -107,14 +107,16 @@ function initContactForm() {
       });
 
       if (res.ok) {
-        status.textContent = "Message sent successfully!";
         form.reset();
+
+        const modal = document.getElementById("success-modal");
+        if (modal) modal.classList.add("active");
       } else {
         const err = await res.json();
-        status.textContent = err.error || "Error sending message.";
+        if (status) status.textContent = err.error || "Error sending message.";
       }
     } catch (err) {
-      status.textContent = "Network error.";
+      if (status) status.textContent = "Network error.";
     }
   });
 }
