@@ -84,79 +84,39 @@ function autoSelectService() {
  * QuantumSD Contact Form Handler
  */
 function initContactForm() {
-    const contactForm = document.getElementById("contact-form");
-    const successModal = document.getElementById("success-modal");
-    const statusEl = document.getElementById("form-status");
-    const startedAtEl = document.getElementById("form-started-at");
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
 
-    if (!contactForm) return;
+  if (!form) return;
 
-    if (startedAtEl) startedAtEl.value = String(Date.now());
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    function resetTurnstile() {
-        if (window.turnstile && typeof window.turnstile.reset === 'function') {
-            window.turnstile.reset();
-        }
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    status.textContent = "Sending...";
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        status.textContent = "Message sent successfully!";
+        form.reset();
+      } else {
+        const err = await res.json();
+        status.textContent = err.error || "Error sending message.";
+      }
+    } catch (err) {
+      status.textContent = "Network error.";
     }
-
-    function setStatus(message, type) {
-        if (!statusEl) return;
-        statusEl.textContent = message;
-        statusEl.classList.remove("success", "error");
-        if (type) statusEl.classList.add(type);
-    }
-
-    contactForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const submitBtn = contactForm.querySelector(".submit-btn");
-        const formData = new FormData(event.target);
-        const formDataObj = Object.fromEntries(formData.entries());
-
-        if (formDataObj.honeypot && formDataObj.honeypot !== "") return;
-
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-        submitBtn.disabled = true;
-        setStatus("Sending your message...", "");
-
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(formDataObj)
-            });
-
-            if (response.ok) {
-                setStatus("Message sent successfully.", "success");
-                if (successModal) successModal.classList.add('active');
-                contactForm.reset();
-                if (startedAtEl) startedAtEl.value = String(Date.now());
-                resetTurnstile();
-            } else {
-                let errorMessage = "Something went wrong.";
-                try {
-                    const data = await response.json();
-                    errorMessage = data.error || errorMessage;
-                } catch (_) {}
-                setStatus(errorMessage, "error");
-                resetTurnstile();
-            }
-        } catch (error) {
-            console.error("Submission Error:", error);
-            setStatus("Connection error. Please try again.", "error");
-            resetTurnstile();
-        } finally {
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
-        }
-    });
-
-    if (successModal) {
-        successModal.addEventListener('click', (e) => {
-            if (e.target.id === "success-modal") closeModal();
-        });
-    }
+  });
 }
 
 function closeModal() {
