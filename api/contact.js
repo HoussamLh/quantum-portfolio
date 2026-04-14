@@ -1,46 +1,49 @@
+const express = require("express");
 const nodemailer = require("nodemailer");
+const cors = require("cors");
+require("dotenv").config();
 
-module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+const app = express();
+app.use(cors());
+app.use(express.json());
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+app.post("/send-email", async (req, res) => {
   const { name, email, service, message } = req.body;
 
-  // Basic validation
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: "All fields are required." });
-  }
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    replyTo: email,
+    to: process.env.RECEIVER_EMAIL,
+    subject: `New Project Inquiry from ${name} [${service}]`,
+    html: `
+      <div style="font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px;">
+        <h2 style="color: #007bff;">DevbySam Inquiry</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Requested Service:</strong> ${service}</p>
+        <hr />
+        <p><strong>Message:</strong></p>
+        <p style="white-space: pre-wrap;">${message}</p>
+      </div>
+    `,
+  };
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: process.env.EMAIL_PORT == 465,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.RECEIVER_EMAIL,
-      replyTo: email,
-      subject: `New Contact: ${service || "General"}`,
-      text: `
-Name: ${name}
-Email: ${email}
-Service: ${service || "N/A"}
-
-Message:
-${message}
-      `,
-    });
-
-    return res.status(200).json({ success: true });
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: true });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Email failed to send." });
+    console.error("Nodemailer Error:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
-};
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`DevbySam Server active on ${PORT}`));
