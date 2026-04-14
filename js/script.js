@@ -1,6 +1,7 @@
 /**
  * QuantumSD Scroll Reveal
  */
+
 function initScrollReveal() {
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
@@ -19,6 +20,7 @@ function initScrollReveal() {
 /**
  * Mobile Menu Toggle
  */
+
 function initMobileMenu() {
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
@@ -48,6 +50,7 @@ function initMobileMenu() {
 /**
  * QuantumSD Highlight Current Page
  */
+
 function highlightCurrentPage() {
 let path = window.location.pathname;
 let currentPage = path.split("/").pop() || "index.html";
@@ -68,6 +71,7 @@ if (currentPage === "") currentPage = "index.html";
 /**
  * QuantumSD Auto-Select Service
  */
+
 function autoSelectService() {
     const queryParams = new URLSearchParams(window.location.search);
     const serviceRequested = queryParams.get('service');
@@ -136,6 +140,7 @@ function initContactForm() {
 /**
  * Closes the success modal after a message is sent
  */
+
 function closeModal() {
   const modal = document.getElementById('success-modal');
   if (modal) modal.classList.remove('active');
@@ -144,6 +149,7 @@ function closeModal() {
 /** 
  ** Spotlight: Show Project Details
  */
+
 function showProject(card, shouldScroll = false) {
     if (!card) return;
 
@@ -214,6 +220,7 @@ function showProject(card, shouldScroll = false) {
 /**
  * Portfolio Filter Logic
  */
+
 function initPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
@@ -244,6 +251,7 @@ function initPortfolioFilter() {
 /**
  * Hides the Project Spotlight
  */
+
 function hideProject() {
     const spotlightSection = document.getElementById('project-spotlight');
     const spotlightContent = document.getElementById('spotlight-content');
@@ -260,6 +268,7 @@ function hideProject() {
 /**
  * Initialization
  */
+
 document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initMobileMenu();
